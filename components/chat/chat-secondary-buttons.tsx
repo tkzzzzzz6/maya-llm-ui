@@ -1,13 +1,16 @@
 import { useChatHandler } from "@/components/chat/chat-hooks/use-chat-handler"
 import { ChatbotUIContext } from "@/context/context"
-import { IconInfoCircle, IconMessagePlus } from "@tabler/icons-react"
+import { IconInfoCircle, IconMessagePlus, IconMicrophone } from "@tabler/icons-react"
 import { FC, useContext } from "react"
+import { useParams, useRouter } from "next/navigation"
 import { WithTooltip } from "../ui/with-tooltip"
 
 interface ChatSecondaryButtonsProps {}
 
 export const ChatSecondaryButtons: FC<ChatSecondaryButtonsProps> = ({}) => {
   const { selectedChat } = useContext(ChatbotUIContext)
+  const router = useRouter()
+  const params = useParams()
 
   const { handleNewChat } = useChatHandler()
 
@@ -67,6 +70,24 @@ export const ChatSecondaryButtons: FC<ChatSecondaryButtonsProps> = ({}) => {
                   className="cursor-pointer hover:opacity-50"
                   size={24}
                   onClick={handleNewChat}
+                />
+              </div>
+            }
+          />
+
+          <WithTooltip
+            delayDuration={200}
+            display={<div>Switch to voice chat</div>}
+            trigger={
+              <div className="mt-1">
+                <IconMicrophone
+                  className="cursor-pointer hover:opacity-50"
+                  size={24}
+                  onClick={() => {
+                    router.push(
+                      `/${params.locale}/${params.workspaceid}/voice-chat/${params.chatid}`
+                    )
+                  }}
                 />
               </div>
             }
