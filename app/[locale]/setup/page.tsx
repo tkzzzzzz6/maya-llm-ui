@@ -77,7 +77,8 @@ export default function SetupPage() {
         if (!profile.has_onboarded) {
           setLoading(false)
         } else {
-          const data = await fetchHostedModels(profile)
+          // 启用动态模型获取
+          const data = await fetchHostedModels(profile, true)
 
           if (!data) return
 

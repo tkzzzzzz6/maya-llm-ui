@@ -128,7 +128,8 @@ export const GlobalState: FC<GlobalStateProps> = ({ children }) => {
       const profile = await fetchStartingData()
 
       if (profile) {
-        const hostedModelRes = await fetchHostedModels(profile)
+        // 启用动态模型获取
+        const hostedModelRes = await fetchHostedModels(profile, true)
         if (!hostedModelRes) return
 
         setEnvKeyMap(hostedModelRes.envKeyMap)

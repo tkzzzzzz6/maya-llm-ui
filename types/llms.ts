@@ -8,23 +8,33 @@ export type LLMID =
   | GroqLLMID
   | PerplexityLLMID
 
-// OpenAI Models (UPDATED 5/13/24)
+// OpenAI Models (UPDATED 10/06/25)
 export type OpenAILLMID =
+  | "o3-pro" // o3 Pro
+  | "o3" // o3
+  | "o4-mini" // o4 Mini
+  | "gpt-4.1" // GPT-4.1
+  | "gpt-4.1-mini" // GPT-4.1 Mini
   | "gpt-4o" // GPT-4o
   | "gpt-4-turbo-preview" // GPT-4 Turbo
   | "gpt-4-vision-preview" // GPT-4 Vision
   | "gpt-4" // GPT-4
-  | "gpt-3.5-turbo" // Updated GPT-3.5 Turbo
+  | "gpt-3.5-turbo" // GPT-3.5 Turbo
 
-// Google Models
+// Google Models (UPDATED 10/06/25)
 export type GoogleLLMID =
+  | "gemini-2.5-pro" // Gemini 2.5 Pro
+  | "gemini-2.5-flash" // Gemini 2.5 Flash
   | "gemini-pro" // Gemini Pro
   | "gemini-pro-vision" // Gemini Pro Vision
   | "gemini-1.5-pro-latest" // Gemini 1.5 Pro
   | "gemini-1.5-flash" // Gemini 1.5 Flash
 
-// Anthropic Models
+// Anthropic Models (UPDATED 10/06/25)
 export type AnthropicLLMID =
+  | "claude-sonnet-4.5" // Claude Sonnet 4.5
+  | "claude-3-5-sonnet-20241022" // Claude 3.5 Sonnet v2
+  | "claude-3-5-haiku-20241022" // Claude 3.5 Haiku
   | "claude-2.1" // Claude 2
   | "claude-instant-1.2" // Claude Instant
   | "claude-3-haiku-20240307" // Claude 3 Haiku

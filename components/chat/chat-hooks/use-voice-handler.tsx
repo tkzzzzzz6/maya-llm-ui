@@ -1,9 +1,12 @@
 import { useState, useRef, useCallback } from "react"
 import { toast } from "sonner"
 
+export type VoiceProvider = "openai" | "google"
+
 interface VoiceHandlerOptions {
   onTranscriptionComplete?: (text: string) => void
   onError?: (error: Error) => void
+  provider?: VoiceProvider
 }
 
 export interface VoiceHandlerReturn {
@@ -15,6 +18,10 @@ export interface VoiceHandlerReturn {
   // TTS 播放状态
   isPlaying: boolean
   currentAudio: HTMLAudioElement | null
+
+  // 提供商状态
+  provider: VoiceProvider
+  setProvider: (provider: VoiceProvider) => void
 
   // 录音控制
   startRecording: () => Promise<void>
@@ -34,15 +41,30 @@ export interface VoiceHandlerReturn {
   audioContext: AudioContext | null
 }
 
-interface TTSOptions {
+interface OpenAITTSOptions {
   voice?: "alloy" | "echo" | "fable" | "onyx" | "nova" | "shimmer"
   model?: "tts-1" | "tts-1-hd"
   speed?: number
 }
 
+interface GoogleTTSOptions {
+  languageCode?: string
+  voiceName?: string
+  speakingRate?: number
+  pitch?: number
+  volumeGainDb?: number
+}
+
+type TTSOptions = OpenAITTSOptions | GoogleTTSOptions
+
 export function useVoiceHandler(
   options?: VoiceHandlerOptions
 ): VoiceHandlerReturn {
+  // 提供商状态
+  const [provider, setProvider] = useState<VoiceProvider>(
+    options?.provider || "openai"
+  )
+
   // 录音相关状态
   const [isRecording, setIsRecording] = useState(false)
   const [isPaused, setIsPaused] = useState(false)
@@ -206,7 +228,13 @@ export function useVoiceHandler(
       const formData = new FormData()
       formData.append("audio", audioBlob, "recording.webm")
 
-      const response = await fetch("/api/voice/speech-to-text", {
+      // 根据提供商选择不同的 API 端点
+      const endpoint =
+        provider === "google"
+          ? "/api/voice/google/speech-to-text"
+          : "/api/voice/speech-to-text"
+
+      const response = await fetch(endpoint, {
         method: "POST",
         body: formData
       })
@@ -241,17 +269,38 @@ export function useVoiceHandler(
 
         toast.loading("正在生成语音...", { id: "tts" })
 
-        const response = await fetch("/api/voice/text-to-speech", {
+        // 根据提供商选择不同的 API 端点和参数
+        let endpoint: string
+        let body: any
+
+        if (provider === "google") {
+          endpoint = "/api/voice/google/text-to-speech"
+          const googleOptions = ttsOptions as GoogleTTSOptions | undefined
+          body = {
+            text,
+            languageCode: googleOptions?.languageCode || "zh-CN",
+            voiceName: googleOptions?.voiceName || "zh-CN-Neural2-D",
+            speakingRate: googleOptions?.speakingRate || 1.0,
+            pitch: googleOptions?.pitch || 0.0,
+            volumeGainDb: googleOptions?.volumeGainDb || 0.0
+          }
+        } else {
+          endpoint = "/api/voice/text-to-speech"
+          const openaiOptions = ttsOptions as OpenAITTSOptions | undefined
+          body = {
+            text,
+            voice: openaiOptions?.voice || "alloy",
+            model: openaiOptions?.model || "tts-1",
+            speed: openaiOptions?.speed || 1.0
+          }
+        }
+
+        const response = await fetch(endpoint, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({
-            text,
-            voice: ttsOptions?.voice || "alloy",
-            model: ttsOptions?.model || "tts-1",
-            speed: ttsOptions?.speed || 1.0
-          })
+          body: JSON.stringify(body)
         })
 
         if (!response.ok) {
@@ -286,7 +335,7 @@ export function useVoiceHandler(
         options?.onError?.(error)
       }
     },
-    [currentAudio, options]
+    [currentAudio, options, provider]
   )
 
   // 暂停播放
@@ -343,6 +392,8 @@ export function useVoiceHandler(
     recordingDuration,
     isPlaying,
     currentAudio,
+    provider,
+    setProvider,
     startRecording,
     stopRecording,
     pauseRecording,

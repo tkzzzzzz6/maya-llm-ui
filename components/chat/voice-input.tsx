@@ -10,8 +10,18 @@ import {
   IconX
 } from "@tabler/icons-react"
 import { Button } from "@/components/ui/button"
-import { VoiceHandlerReturn } from "./chat-hooks/use-voice-handler"
+import {
+  VoiceHandlerReturn,
+  VoiceProvider
+} from "./chat-hooks/use-voice-handler"
 import { VoiceVisualizer } from "./voice-visualizer"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select"
 
 interface VoiceInputProps {
   voiceHandler: VoiceHandlerReturn
@@ -29,6 +39,8 @@ export const VoiceInput: FC<VoiceInputProps> = ({
     isPaused,
     recordingDuration,
     isPlaying,
+    provider,
+    setProvider,
     startRecording,
     stopRecording,
     pauseRecording,
@@ -49,6 +61,24 @@ export const VoiceInput: FC<VoiceInputProps> = ({
 
   return (
     <div className={cn("flex w-full flex-col space-y-4", className)}>
+      {/* 语音服务提供商选择器 */}
+      <div className="flex items-center justify-center space-x-3">
+        <span className="text-muted-foreground text-sm">语音服务:</span>
+        <Select
+          value={provider}
+          onValueChange={(value: VoiceProvider) => setProvider(value)}
+          disabled={isRecording || isPlaying}
+        >
+          <SelectTrigger className="w-[160px]">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="openai">OpenAI</SelectItem>
+            <SelectItem value="google">Google Cloud</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
       {/* 波形可视化 */}
       <VoiceVisualizer
         analyserNode={analyserNode}
