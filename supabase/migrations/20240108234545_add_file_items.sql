@@ -1,8 +1,9 @@
+CREATE EXTENSION IF NOT EXISTS vector WITH SCHEMA public;
 --------------- FILE ITEMS ---------------
 
 create table file_items (
   -- ID
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 
   -- RELATIONSHIPS
   file_id UUID NOT NULL REFERENCES files(id) ON DELETE CASCADE,

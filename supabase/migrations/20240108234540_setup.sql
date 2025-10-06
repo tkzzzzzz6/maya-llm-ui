@@ -1,8 +1,8 @@
 -- Enable HTTP extension
-create extension http with schema extensions;
+create extension if not exists http with schema extensions;
 
 -- Enable vector extension
-create extension vector with schema extensions;
+create extension if not exists vector with schema extensions;
 
 -- Function to update modified column
 CREATE OR REPLACE FUNCTION update_updated_at_column()
@@ -50,8 +50,10 @@ LANGUAGE 'plpgsql'
 SECURITY DEFINER
 AS $$
 DECLARE
-  project_url TEXT := 'https://qogthjuffbejgocoonlx.supabase.co';
-  service_role_key TEXT := 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFvZ3RoanVmZmJlamdvY29vbmx4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1OTY2Mjg3OSwiZXhwIjoyMDc1MjM4ODc5fQ.W3wzGGPA7v8zHjrKkKr-z8YM-lNZbXonqU_AcZOcdyI'; -- full access needed for http request to storage
+--   project_url TEXT := 'https://qogthjuffbejgocoonlx.supabase.co';
+  project_url TEXT := 'https://bksibnjwdndekdrdobhc.supabase.co';
+
+  service_role_key TEXT := 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJrc2libmp3ZG5kZWtkcmRvYmhjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1OTcxOTYxMSwiZXhwIjoyMDc1Mjk1NjExfQ.R8WtS_yBoP37bSZWoeDiPLX08X-hUFOVuSBE9f4mlHk'; -- full access needed for http request to storage
   url TEXT := project_url || '/storage/v1/object/' || bucket || '/' || object;
 BEGIN
   SELECT

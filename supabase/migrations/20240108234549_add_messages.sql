@@ -4,7 +4,7 @@
 
 CREATE TABLE IF NOT EXISTS messages (
     -- ID
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 
     -- RELATIONSHIPS
     chat_id UUID NOT NULL REFERENCES chats(id) ON DELETE CASCADE,
