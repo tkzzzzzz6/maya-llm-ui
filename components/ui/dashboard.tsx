@@ -73,7 +73,7 @@ export const Dashboard: FC<DashboardProps> = ({ children }) => {
 
       <div
         className={cn(
-          "duration-200 dark:border-none " + (showSidebar ? "border-r-2" : "")
+          "bg-background duration-200 dark:border-none " + (showSidebar ? "border-r-2" : "")
         )}
         style={{
           // Sidebar
@@ -99,19 +99,31 @@ export const Dashboard: FC<DashboardProps> = ({ children }) => {
       </div>
 
       <div
-        className="bg-muted/50 relative flex w-screen min-w-[90%] grow flex-col sm:min-w-fit"
+        className="relative flex w-screen min-w-[90%] grow flex-col sm:min-w-fit"
+        style={{
+          backgroundImage: 'url(/background.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
+        }}
         onDrop={onFileDrop}
         onDragOver={onDragOver}
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
       >
-        {isDragging ? (
-          <div className="flex h-full items-center justify-center bg-black/50 text-2xl text-white">
-            drop file here
-          </div>
-        ) : (
-          children
-        )}
+        {/* 背景遮罩层 */}
+        <div className="absolute inset-0 backdrop-blur-sm bg-background/85" />
+        
+        {/* 内容层 */}
+        <div className="relative z-10 flex size-full flex-col">
+          {isDragging ? (
+            <div className="flex h-full items-center justify-center bg-black/50 text-2xl text-white">
+              drop file here
+            </div>
+          ) : (
+            children
+          )}
+        </div>
 
         <Button
           className={cn(
