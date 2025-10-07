@@ -17,6 +17,7 @@ function getProxyAgent() {
     process.env.http_proxy ||
     process.env.HTTP_PROXY ||
     "http://172.24.240.1:10808" // 硬编码代理作为后备
+  // 192.168.243.93
 
   console.log("Using proxy:", proxy)
   return new HttpsProxyAgent(proxy)

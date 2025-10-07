@@ -21,11 +21,12 @@ export const getMessagesByChatId = async (chatId: string) => {
     .select("*")
     .eq("chat_id", chatId)
 
+  // 返回空数组而不是抛出错误，因为新聊天可能还没有消息
   if (error) {
-    throw new Error(error.message)
+    console.warn("Error fetching messages for chat:", chatId, error.message)
+    return []
   }
 
-  // 返回空数组而不是抛出错误，因为新聊天可能还没有消息
   return messages || []
 }
 
