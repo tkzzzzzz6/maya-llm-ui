@@ -75,6 +75,7 @@ export const VoiceInput: FC<VoiceInputProps> = ({
           <SelectContent>
             <SelectItem value="openai">OpenAI</SelectItem>
             <SelectItem value="google">Google Cloud</SelectItem>
+            <SelectItem value="yaya">YAYA (本地)</SelectItem>
           </SelectContent>
         </Select>
       </div>

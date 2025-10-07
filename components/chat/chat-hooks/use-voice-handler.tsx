@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback } from "react"
 import { toast } from "sonner"
 
-export type VoiceProvider = "openai" | "google"
+export type VoiceProvider = "openai" | "google" | "yaya"
 
 interface VoiceHandlerOptions {
   onTranscriptionComplete?: (text: string) => void
@@ -229,10 +229,14 @@ export function useVoiceHandler(
       formData.append("audio", audioBlob, "recording.webm")
 
       // 根据提供商选择不同的 API 端点
-      const endpoint =
-        provider === "google"
-          ? "/api/voice/google/speech-to-text"
-          : "/api/voice/speech-to-text"
+      let endpoint: string
+      if (provider === "google") {
+        endpoint = "/api/voice/google/speech-to-text"
+      } else if (provider === "yaya") {
+        endpoint = "/api/voice/yaya/speech-to-text"
+      } else {
+        endpoint = "/api/voice/speech-to-text"
+      }
 
       const response = await fetch(endpoint, {
         method: "POST",
@@ -283,6 +287,14 @@ export function useVoiceHandler(
             speakingRate: googleOptions?.speakingRate || 1.0,
             pitch: googleOptions?.pitch || 0.0,
             volumeGainDb: googleOptions?.volumeGainDb || 0.0
+          }
+        } else if (provider === "yaya") {
+          endpoint = "/api/voice/yaya/text-to-speech"
+          body = {
+            text,
+            voice: "zh-CN-XiaoxiaoNeural", // YAYA 默认使用晓晓女声
+            rate: "+0%",
+            pitch: "+0Hz"
           }
         } else {
           endpoint = "/api/voice/text-to-speech"
