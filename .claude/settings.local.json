@@ -7,7 +7,11 @@
       "Bash(npm run type-check:*)",
       "Bash(curl -s \"https://generativelanguage.googleapis.com/v1beta/models?key=AIzaSyC7UJx4-u-GbrssJ5mcgg-hITM_XAVVsqU\")",
       "Bash(curl -v -X POST \"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:streamGenerateContent?key=AIzaSyC7UJx4-u-GbrssJ5mcgg-hITM_XAVVsqU&alt=sse\" -H \"Content-Type: application/json\" -d '{\n    \"\"\"\"contents\"\"\"\": [{\n      \"\"\"\"role\"\"\"\": \"\"\"\"user\"\"\"\",\n      \"\"\"\"parts\"\"\"\": [{\"\"\"\"text\"\"\"\": \"\"\"\"Hello\"\"\"\"}]\n    }],\n    \"\"\"\"generationConfig\"\"\"\": {\n      \"\"\"\"temperature\"\"\"\": 0.7\n    }\n  }')",
-      "Bash(env)"
+      "Bash(env)",
+      "Bash(curl -s \"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=AIzaSyC7UJx4-u-GbrssJ5mcgg-hITM_XAVVsqU\" -H \"Content-Type: application/json\" -d '{\"\"\"\"contents\"\"\"\":[{\"\"\"\"parts\"\"\"\":[{\"\"\"\"text\"\"\"\":\"\"\"\"Hello\"\"\"\"}]}]}')",
+      "Bash(npm uninstall:*)",
+      "Bash(echo $http_proxy)",
+      "Bash(echo $https_proxy)"
     ],
     "deny": [],
     "ask": []
