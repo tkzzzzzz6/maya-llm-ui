@@ -181,9 +181,18 @@ export const fetchGoogleModels = async (apiKey: string) => {
   }
 }
 
-export const fetchOpenAIModels = async (apiKey: string) => {
+export const fetchOpenAIModels = async (
+  apiKey: string,
+  baseURL?: string
+) => {
   try {
-    const response = await fetch("https://api.openai.com/v1/models", {
+    // 使用自定义 URL 或默认 OpenAI URL
+    const apiUrl =
+      baseURL ||
+      process.env.OPENAI_API_URL ||
+      "https://api.openai.com/v1"
+
+    const response = await fetch(`${apiUrl}/models`, {
       headers: {
         Authorization: `Bearer ${apiKey}`
       }
@@ -227,9 +236,18 @@ export const fetchOpenAIModels = async (apiKey: string) => {
   }
 }
 
-export const fetchAnthropicModels = async (apiKey: string) => {
+export const fetchAnthropicModels = async (
+  apiKey: string,
+  baseURL?: string
+) => {
   try {
-    const response = await fetch("https://api.anthropic.com/v1/models", {
+    // 使用自定义 URL 或默认 Anthropic URL
+    const apiUrl =
+      baseURL ||
+      process.env.ANTHROPIC_API_URL ||
+      "https://api.anthropic.com"
+
+    const response = await fetch(`${apiUrl}/v1/models`, {
       headers: {
         "x-api-key": apiKey,
         "anthropic-version": "2023-06-01"
