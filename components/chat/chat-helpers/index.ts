@@ -158,9 +158,10 @@ export const handleLocalChat = async (
 ) => {
   const formattedMessages = await buildFinalMessages(payload, profile, [])
 
+  // 使用 Next.js API 代理路由，这样远程用户也能访问
   // Ollama API: https://github.com/jmorganca/ollama/blob/main/docs/api.md
   const response = await fetchChatResponse(
-    process.env.NEXT_PUBLIC_OLLAMA_URL + "/api/chat",
+    "/api/ollama",
     {
       model: chatSettings.model,
       messages: formattedMessages,

@@ -83,9 +83,8 @@ export const fetchHostedModels = async (
 
 export const fetchOllamaModels = async () => {
   try {
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_OLLAMA_URL + "/api/tags"
-    )
+    // 使用 Next.js API 代理路由，这样远程用户也能访问
+    const response = await fetch("/api/ollama?path=/api/tags")
 
     if (!response.ok) {
       throw new Error(`Ollama server is not responding.`)
