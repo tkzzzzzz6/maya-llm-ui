@@ -96,7 +96,7 @@ export const VoiceInput: FC<VoiceInputProps> = ({
               isPaused ? "bg-yellow-500" : "animate-pulse bg-red-500"
             )}
           />
-          <div className="text-lg font-mono font-semibold">
+          <div className="font-mono text-lg font-semibold">
             {formatDuration(recordingDuration)}
           </div>
         </div>
@@ -109,7 +109,7 @@ export const VoiceInput: FC<VoiceInputProps> = ({
           <Button
             onClick={startRecording}
             size="lg"
-            className="bg-primary hover:bg-primary/90 h-20 w-20 rounded-full"
+            className="bg-primary hover:bg-primary/90 size-20 rounded-full"
           >
             <IconMicrophone size={32} />
           </Button>
@@ -122,7 +122,7 @@ export const VoiceInput: FC<VoiceInputProps> = ({
               onClick={isPaused ? resumeRecording : pauseRecording}
               size="lg"
               variant="outline"
-              className="h-16 w-16 rounded-full"
+              className="size-16 rounded-full"
             >
               {isPaused ? (
                 <IconPlayerPlay size={28} />
@@ -135,7 +135,7 @@ export const VoiceInput: FC<VoiceInputProps> = ({
             <Button
               onClick={stopRecording}
               size="lg"
-              className="h-20 w-20 rounded-full bg-red-600 hover:bg-red-700"
+              className="size-20 rounded-full bg-red-600 hover:bg-red-700"
             >
               <IconPlayerStop size={32} />
             </Button>
@@ -145,7 +145,7 @@ export const VoiceInput: FC<VoiceInputProps> = ({
               onClick={cancelRecording}
               size="lg"
               variant="outline"
-              className="h-16 w-16 rounded-full"
+              className="size-16 rounded-full"
             >
               <IconX size={28} />
             </Button>
@@ -159,7 +159,7 @@ export const VoiceInput: FC<VoiceInputProps> = ({
               onClick={pauseAudio}
               size="lg"
               variant="outline"
-              className="h-16 w-16 rounded-full"
+              className="size-16 rounded-full"
             >
               <IconPlayerPause size={28} />
             </Button>
@@ -168,7 +168,7 @@ export const VoiceInput: FC<VoiceInputProps> = ({
             <Button
               onClick={stopAudio}
               size="lg"
-              className="h-16 w-16 rounded-full bg-blue-600 hover:bg-blue-700"
+              className="size-16 rounded-full bg-blue-600 hover:bg-blue-700"
             >
               <IconPlayerStop size={28} />
             </Button>

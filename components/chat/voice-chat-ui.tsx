@@ -236,9 +236,7 @@ export const VoiceChatUI: FC<VoiceChatUIProps> = ({}) => {
 
   // 切换回文字聊天
   const switchToTextChat = () => {
-    router.push(
-      `/${params.locale}/${params.workspaceid}/chat/${params.chatid}`
-    )
+    router.push(`/${params.locale}/${params.workspaceid}/chat/${params.chatid}`)
   }
 
   if (loading) {
@@ -293,7 +291,7 @@ export const VoiceChatUI: FC<VoiceChatUIProps> = ({}) => {
       </div>
 
       {/* 语音输入控件 */}
-      <div className="relative w-full min-w-[300px] items-end px-4 pb-4 pt-4 sm:w-[600px] md:w-[700px] lg:w-[700px] xl:w-[800px]">
+      <div className="relative w-full min-w-[300px] items-end p-4 sm:w-[600px] md:w-[700px] lg:w-[700px] xl:w-[800px]">
         <VoiceInput voiceHandler={voiceHandler} />
       </div>
 

@@ -25,10 +25,10 @@ export const MODEL_FETCH_CONFIG = {
    * 为每个提供商单独配置
    */
   providers: {
-    google: true,      // 启用 Google Gemini 动态获取
-    openai: true,      // 启用 OpenAI 动态获取
-    anthropic: true,   // 启用 Anthropic Claude 动态获取
-    openrouter: true,  // OpenRouter 默认就是动态的
-    ollama: true       // Ollama 默认就是动态的
+    google: true, // 启用 Google Gemini 动态获取
+    openai: true, // 启用 OpenAI 动态获取
+    anthropic: true, // 启用 Anthropic Claude 动态获取
+    openrouter: true, // OpenRouter 默认就是动态的
+    ollama: true // Ollama 默认就是动态的
   }
 }

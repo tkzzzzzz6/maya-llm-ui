@@ -7,9 +7,10 @@ export async function GET(request: NextRequest) {
   try {
     const url = new URL(request.url)
     const path = url.searchParams.get("path") || "/api/tags"
-    
-    const ollamaUrl = process.env.NEXT_PUBLIC_OLLAMA_URL || "http://localhost:11434"
-    
+
+    const ollamaUrl =
+      process.env.NEXT_PUBLIC_OLLAMA_URL || "http://localhost:11434"
+
     const response = await fetch(`${ollamaUrl}${path}`, {
       method: "GET",
       headers: {
@@ -38,8 +39,9 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const ollamaUrl = process.env.NEXT_PUBLIC_OLLAMA_URL || "http://localhost:11434"
-    
+    const ollamaUrl =
+      process.env.NEXT_PUBLIC_OLLAMA_URL || "http://localhost:11434"
+
     const response = await fetch(`${ollamaUrl}/api/chat`, {
       method: "POST",
       headers: {
@@ -60,7 +62,7 @@ export async function POST(request: NextRequest) {
       headers: {
         "Content-Type": "text/event-stream",
         "Cache-Control": "no-cache",
-        "Connection": "keep-alive"
+        Connection: "keep-alive"
       }
     })
   } catch (error: any) {
@@ -71,4 +73,3 @@ export async function POST(request: NextRequest) {
     )
   }
 }
-

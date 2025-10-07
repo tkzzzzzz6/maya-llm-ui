@@ -4,7 +4,10 @@
       "WebSearch",
       "Bash(npm install:*)",
       "Bash(mkdir:*)",
-      "Bash(npm run type-check:*)"
+      "Bash(npm run type-check:*)",
+      "Bash(curl -s \"https://generativelanguage.googleapis.com/v1beta/models?key=AIzaSyC7UJx4-u-GbrssJ5mcgg-hITM_XAVVsqU\")",
+      "Bash(curl -v -X POST \"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:streamGenerateContent?key=AIzaSyC7UJx4-u-GbrssJ5mcgg-hITM_XAVVsqU&alt=sse\" -H \"Content-Type: application/json\" -d '{\n    \"\"\"\"contents\"\"\"\": [{\n      \"\"\"\"role\"\"\"\": \"\"\"\"user\"\"\"\",\n      \"\"\"\"parts\"\"\"\": [{\"\"\"\"text\"\"\"\": \"\"\"\"Hello\"\"\"\"}]\n    }],\n    \"\"\"\"generationConfig\"\"\"\": {\n      \"\"\"\"temperature\"\"\"\": 0.7\n    }\n  }')",
+      "Bash(env)"
     ],
     "deny": [],
     "ask": []

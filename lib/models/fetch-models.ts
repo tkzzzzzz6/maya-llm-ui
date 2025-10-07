@@ -168,7 +168,9 @@ export const fetchGoogleModels = async (apiKey: string) => {
           provider: "google",
           hostedId: modelId,
           platformLink: "https://ai.google.dev/",
-          imageInput: model.supportedGenerationMethods?.includes("generateImage") || modelId.includes("vision")
+          imageInput:
+            model.supportedGenerationMethods?.includes("generateImage") ||
+            modelId.includes("vision")
         }
       })
 
@@ -180,16 +182,11 @@ export const fetchGoogleModels = async (apiKey: string) => {
   }
 }
 
-export const fetchOpenAIModels = async (
-  apiKey: string,
-  baseURL?: string
-) => {
+export const fetchOpenAIModels = async (apiKey: string, baseURL?: string) => {
   try {
     // 使用自定义 URL 或默认 OpenAI URL
     const apiUrl =
-      baseURL ||
-      process.env.OPENAI_API_URL ||
-      "https://api.openai.com/v1"
+      baseURL || process.env.OPENAI_API_URL || "https://api.openai.com/v1"
 
     const response = await fetch(`${apiUrl}/models`, {
       headers: {
@@ -242,9 +239,7 @@ export const fetchAnthropicModels = async (
   try {
     // 使用自定义 URL 或默认 Anthropic URL
     const apiUrl =
-      baseURL ||
-      process.env.ANTHROPIC_API_URL ||
-      "https://api.anthropic.com"
+      baseURL || process.env.ANTHROPIC_API_URL || "https://api.anthropic.com"
 
     const response = await fetch(`${apiUrl}/v1/models`, {
       headers: {

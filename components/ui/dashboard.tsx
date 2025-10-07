@@ -73,7 +73,8 @@ export const Dashboard: FC<DashboardProps> = ({ children }) => {
 
       <div
         className={cn(
-          "bg-background duration-200 dark:border-none " + (showSidebar ? "border-r-2" : "")
+          "bg-background duration-200 dark:border-none " +
+            (showSidebar ? "border-r-2" : "")
         )}
         style={{
           // Sidebar
@@ -101,10 +102,10 @@ export const Dashboard: FC<DashboardProps> = ({ children }) => {
       <div
         className="relative flex w-screen min-w-[90%] grow flex-col sm:min-w-fit"
         style={{
-          backgroundImage: 'url(/background.jpg)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed'
+          backgroundImage: "url(/background.jpg)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundAttachment: "fixed"
         }}
         onDrop={onFileDrop}
         onDragOver={onDragOver}
@@ -112,8 +113,8 @@ export const Dashboard: FC<DashboardProps> = ({ children }) => {
         onDragLeave={handleDragLeave}
       >
         {/* 背景遮罩层 */}
-        <div className="absolute inset-0 backdrop-blur-sm bg-background/85" />
-        
+        <div className="bg-background/85 absolute inset-0 backdrop-blur-sm" />
+
         {/* 内容层 */}
         <div className="relative z-10 flex size-full flex-col">
           {isDragging ? (

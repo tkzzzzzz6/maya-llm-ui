@@ -74,12 +74,14 @@ export const VoiceVisualizer: FC<VoiceVisualizerProps> = ({
       const height = canvas.height / (window.devicePixelRatio || 1)
 
       // 清空画布
-      ctx.fillStyle = mode === "recording" ? "rgb(17, 24, 39)" : "rgb(30, 41, 59)"
+      ctx.fillStyle =
+        mode === "recording" ? "rgb(17, 24, 39)" : "rgb(30, 41, 59)"
       ctx.fillRect(0, 0, width, height)
 
       // 绘制波形线
       ctx.lineWidth = 2
-      ctx.strokeStyle = mode === "recording" ? "rgb(34, 197, 94)" : "rgb(59, 130, 246)"
+      ctx.strokeStyle =
+        mode === "recording" ? "rgb(34, 197, 94)" : "rgb(59, 130, 246)"
       ctx.beginPath()
 
       const sliceWidth = width / bufferLength
@@ -124,7 +126,7 @@ export const VoiceVisualizer: FC<VoiceVisualizerProps> = ({
     >
       <canvas
         ref={canvasRef}
-        className="h-full w-full"
+        className="size-full"
         style={{ display: "block" }}
       />
 

@@ -14,28 +14,28 @@ import "./globals.css"
 const inter = localFont({
   src: [
     {
-      path: '../../public/fonts/Inter-Regular.woff2',
-      weight: '400',
-      style: 'normal',
+      path: "../../public/fonts/Inter-Regular.woff2",
+      weight: "400",
+      style: "normal"
     },
     {
-      path: '../../public/fonts/Inter-Medium.woff2',
-      weight: '500',
-      style: 'normal',
+      path: "../../public/fonts/Inter-Medium.woff2",
+      weight: "500",
+      style: "normal"
     },
     {
-      path: '../../public/fonts/Inter-SemiBold.woff2',
-      weight: '600',
-      style: 'normal',
+      path: "../../public/fonts/Inter-SemiBold.woff2",
+      weight: "600",
+      style: "normal"
     },
     {
-      path: '../../public/fonts/Inter-Bold.woff2',
-      weight: '700',
-      style: 'normal',
-    },
+      path: "../../public/fonts/Inter-Bold.woff2",
+      weight: "700",
+      style: "normal"
+    }
   ],
-  display: 'swap',
-  variable: '--font-inter',
+  display: "swap",
+  variable: "--font-inter"
 })
 const APP_NAME = "Chatbot UI"
 const APP_DEFAULT_TITLE = "Chatbot UI"
@@ -50,7 +50,9 @@ interface RootLayoutProps {
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3001"),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3001"
+  ),
   applicationName: APP_NAME,
   title: {
     default: APP_DEFAULT_TITLE,

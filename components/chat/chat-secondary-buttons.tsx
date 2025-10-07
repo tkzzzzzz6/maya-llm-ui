@@ -1,6 +1,10 @@
 import { useChatHandler } from "@/components/chat/chat-hooks/use-chat-handler"
 import { ChatbotUIContext } from "@/context/context"
-import { IconInfoCircle, IconMessagePlus, IconMicrophone } from "@tabler/icons-react"
+import {
+  IconInfoCircle,
+  IconMessagePlus,
+  IconMicrophone
+} from "@tabler/icons-react"
 import { FC, useContext } from "react"
 import { useParams, useRouter } from "next/navigation"
 import { WithTooltip } from "../ui/with-tooltip"

@@ -88,8 +88,7 @@ export async function POST(req: NextRequest) {
     return new NextResponse(
       JSON.stringify({
         text: transcription,
-        confidence:
-          response.results?.[0]?.alternatives?.[0]?.confidence || null
+        confidence: response.results?.[0]?.alternatives?.[0]?.confidence || null
       }),
       {
         status: 200,
