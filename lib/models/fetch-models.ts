@@ -92,14 +92,24 @@ export const fetchOllamaModels = async () => {
 
     const data = await response.json()
 
-    const localModels: LLM[] = data.models.map((model: any) => ({
-      modelId: model.name as LLMID,
-      modelName: model.name,
-      provider: "ollama",
-      hostedId: model.name,
-      platformLink: "https://ollama.ai/library",
-      imageInput: false
-    }))
+    const localModels: LLM[] = data.models.map((model: any) => {
+      // 自定义模型显示名称
+      let displayName = model.name
+
+      // 将 deepseek-v3.1:671b-cloud 重命名为 YaYa
+      if (model.name === "deepseek-v3.1:671b-cloud") {
+        displayName = "YaYa"
+      }
+
+      return {
+        modelId: model.name as LLMID,
+        modelName: displayName, // 使用自定义显示名称
+        provider: "ollama",
+        hostedId: model.name,
+        platformLink: "https://ollama.ai/library",
+        imageInput: false
+      }
+    })
 
     return localModels
   } catch (error) {
