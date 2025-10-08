@@ -15,7 +15,7 @@ export const getChatFilesByChatId = async (chatId: string) => {
     .maybeSingle()
 
   if (error) {
-    throw new Error(error.message)
+    throw new Error(error?.message || "Failed to fetch chat files")
   }
 
   if (!chatFiles) {
@@ -32,7 +32,7 @@ export const createChatFile = async (chatFile: TablesInsert<"chat_files">) => {
     .select("*")
 
   if (error) {
-    throw new Error(error.message)
+    throw new Error(error?.message || "Failed to create chat file")
   }
 
   if (!createdChatFile) {
@@ -51,7 +51,7 @@ export const createChatFiles = async (
     .select("*")
 
   if (error) {
-    throw new Error(error.message)
+    throw new Error(error?.message || "Failed to create chat files")
   }
 
   if (!createdChatFiles) {
