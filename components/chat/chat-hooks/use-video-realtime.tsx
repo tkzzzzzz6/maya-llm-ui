@@ -46,9 +46,16 @@ export function useVideoRealtime(
   // 连接 WebSocket
   const connect = useCallback(async () => {
     try {
-      const wsUrl =
-        process.env.NEXT_PUBLIC_QWEN_VIDEO_WS_URL ||
-        "ws://localhost:5003/ws/video"
+      // 获取 WebSocket URL - 支持多种方式
+      let wsUrl = process.env.NEXT_PUBLIC_QWEN_VIDEO_WS_URL
+
+      if (!wsUrl) {
+        // 如果没有配置环境变量，使用当前页面的主机名
+        const protocol = window.location.protocol === "https:" ? "wss:" : "ws:"
+        const hostname = window.location.hostname
+        // 默认使用 5003 端口
+        wsUrl = `${protocol}//${hostname}:5003/ws/video`
+      }
 
       console.log("连接到实时视频服务:", wsUrl)
 
