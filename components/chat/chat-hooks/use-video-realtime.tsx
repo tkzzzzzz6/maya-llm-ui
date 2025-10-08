@@ -7,12 +7,16 @@ export interface VideoRealtimeHandlerReturn {
   isStreaming: boolean
   currentResponse: string
   currentTranscript: string
+  availableCameras: MediaDeviceInfo[]
+  selectedCameraId: string | null
 
   // 控制
   connect: () => Promise<void>
   disconnect: () => void
-  startStreaming: () => Promise<void>
+  startStreaming: (cameraId?: string) => Promise<void>
   stopStreaming: () => void
+  selectCamera: (deviceId: string) => void
+  refreshCameras: () => Promise<void>
 
   // 回调
   onResponse?: (text: string) => void

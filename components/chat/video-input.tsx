@@ -8,7 +8,8 @@ import {
   IconPlayerPlay,
   IconPlayerStop,
   IconX,
-  IconCamera
+  IconCamera,
+  IconRefresh
 } from "@tabler/icons-react"
 import { Button } from "@/components/ui/button"
 import {
@@ -39,6 +40,7 @@ export const VideoInput: FC<VideoInputProps> = ({
     videoDevices,
     selectedDeviceId,
     setSelectedDeviceId,
+    loadVideoDevices,
     startRecording,
     stopRecording,
     pauseRecording,
@@ -75,25 +77,61 @@ export const VideoInput: FC<VideoInputProps> = ({
 
   return (
     <div className={cn("flex w-full flex-col space-y-4", className)}>
-      {/* 摄像头选择器 */}
-      {!isRecording && videoDevices.length > 0 && (
-        <div className="flex items-center space-x-2">
-          <label className="text-sm font-medium">选择摄像头:</label>
-          <Select
-            value={selectedDeviceId || undefined}
-            onValueChange={setSelectedDeviceId}
-          >
-            <SelectTrigger className="w-[300px]">
-              <SelectValue placeholder="选择摄像头设备" />
-            </SelectTrigger>
-            <SelectContent>
-              {videoDevices.map(device => (
-                <SelectItem key={device.deviceId} value={device.deviceId}>
-                  {device.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+      {/* 摄像头选择器 - 始终显示 */}
+      {videoDevices.length > 0 && (
+        <div className="bg-secondary/30 flex items-center justify-between rounded-lg border p-3">
+          <div className="flex flex-1 items-center space-x-2">
+            <label className="text-sm font-medium">📹 摄像头:</label>
+            <Select
+              value={selectedDeviceId || undefined}
+              onValueChange={setSelectedDeviceId}
+              disabled={isRecording}
+            >
+              <SelectTrigger className="w-[280px]">
+                <SelectValue placeholder="选择摄像头设备" />
+              </SelectTrigger>
+              <SelectContent>
+                {videoDevices.map(device => (
+                  <SelectItem key={device.deviceId} value={device.deviceId}>
+                    {device.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* 刷新按钮 */}
+          {!isRecording && (
+            <Button
+              onClick={loadVideoDevices}
+              size="sm"
+              variant="ghost"
+              className="ml-2"
+              title="刷新摄像头列表"
+            >
+              <IconRefresh size={18} />
+            </Button>
+          )}
+
+          {/* 录制时显示状态 */}
+          {isRecording && (
+            <span className="text-muted-foreground ml-2 text-sm">
+              (录制中，无法切换)
+            </span>
+          )}
+        </div>
+      )}
+
+      {/* 如果没有检测到摄像头 */}
+      {videoDevices.length === 0 && (
+        <div className="flex items-center justify-between rounded-lg border border-yellow-500/30 bg-yellow-500/10 p-3">
+          <div className="flex items-center space-x-2">
+            <span className="text-sm">⚠️ 未检测到摄像头设备</span>
+          </div>
+          <Button onClick={loadVideoDevices} size="sm" variant="outline">
+            <IconRefresh size={18} className="mr-1" />
+            重新检测
+          </Button>
         </div>
       )}
 

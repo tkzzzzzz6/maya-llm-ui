@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react"
+import { useState, useRef, useCallback, useEffect } from "react"
 import { toast } from "sonner"
 
 export interface VideoDevice {
@@ -17,6 +17,7 @@ export interface VideoHandlerReturn {
   videoDevices: VideoDevice[]
   selectedDeviceId: string | null
   setSelectedDeviceId: (deviceId: string) => void
+  loadVideoDevices: () => Promise<void>
 
   // 录制控制
   startRecording: () => Promise<void>
@@ -83,6 +84,11 @@ export function useVideoHandler(
       console.error("Failed to load video devices:", error)
     }
   }, [selectedDeviceId])
+
+  // 组件挂载时自动加载摄像头列表
+  useEffect(() => {
+    loadVideoDevices()
+  }, [])
 
   // 开始录制
   const startRecording = useCallback(async () => {
@@ -324,6 +330,7 @@ export function useVideoHandler(
     videoDevices,
     selectedDeviceId,
     setSelectedDeviceId,
+    loadVideoDevices,
     startRecording,
     stopRecording,
     pauseRecording,
