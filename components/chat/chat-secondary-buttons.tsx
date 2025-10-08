@@ -3,7 +3,8 @@ import { ChatbotUIContext } from "@/context/context"
 import {
   IconInfoCircle,
   IconMessagePlus,
-  IconMicrophone
+  IconMicrophone,
+  IconVideo
 } from "@tabler/icons-react"
 import { FC, useContext } from "react"
 import { useParams, useRouter } from "next/navigation"
@@ -90,6 +91,24 @@ export const ChatSecondaryButtons: FC<ChatSecondaryButtonsProps> = ({}) => {
                   onClick={() => {
                     router.push(
                       `/${params.locale}/${params.workspaceid}/voice-chat/${params.chatid}`
+                    )
+                  }}
+                />
+              </div>
+            }
+          />
+
+          <WithTooltip
+            delayDuration={200}
+            display={<div>Switch to video chat</div>}
+            trigger={
+              <div className="mt-1">
+                <IconVideo
+                  className="cursor-pointer hover:opacity-50"
+                  size={24}
+                  onClick={() => {
+                    router.push(
+                      `/${params.locale}/${params.workspaceid}/video-chat/${params.chatid}`
                     )
                   }}
                 />
