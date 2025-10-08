@@ -13,17 +13,24 @@ import { OpenAISVG } from "../icons/openai-svg"
 
 interface ModelIconProps extends HTMLAttributes<HTMLDivElement> {
   provider: ModelProvider
+  modelId?: string // 用于特殊模型的图标处理
   height: number
   width: number
 }
 
 export const ModelIcon: FC<ModelIconProps> = ({
   provider,
+  modelId,
   height,
   width,
   ...props
 }) => {
   const { theme } = useTheme()
+
+  // gemini-2.5-flash (V-mallard) 使用特殊图标
+  if (modelId === "gemini-2.5-flash") {
+    return <IconSparkles size={width} className="text-primary" />
+  }
 
   switch (provider as ModelProvider) {
     case "openai":

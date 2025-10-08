@@ -27,6 +27,7 @@ import { AssistantImage } from "@/types/images/assistant-image"
 import { VALID_ENV_KEYS } from "@/types/valid-keys"
 import { useRouter } from "next/navigation"
 import { FC, useEffect, useState } from "react"
+import { DEFAULT_SYSTEM_PROMPT } from "@/lib/default-prompt"
 
 interface GlobalStateProps {
   children: React.ReactNode
@@ -78,7 +79,7 @@ export const GlobalState: FC<GlobalStateProps> = ({ children }) => {
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([])
   const [chatSettings, setChatSettings] = useState<ChatSettings>({
     model: "gpt-4-turbo-preview",
-    prompt: "You are a helpful AI assistant.",
+    prompt: DEFAULT_SYSTEM_PROMPT,
     temperature: 0.5,
     contextLength: 4000,
     includeProfileContext: true,

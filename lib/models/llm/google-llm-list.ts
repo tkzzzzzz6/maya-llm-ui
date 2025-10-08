@@ -14,10 +14,10 @@ const GEMINI_2_5_PRO: LLM = {
   imageInput: true
 }
 
-// Gemini 2.5 Flash (UPDATED 10/06/25)
+// Gemini 2.5 Flash (UPDATED 10/06/25) - 显示为 V-mallard
 const GEMINI_2_5_FLASH: LLM = {
   modelId: "gemini-2.5-flash",
-  modelName: "Gemini 2.5 Flash",
+  modelName: "V-mallard",
   provider: "google",
   hostedId: "gemini-2.5-flash",
   platformLink: GOOGLE_PLATORM_LINK,

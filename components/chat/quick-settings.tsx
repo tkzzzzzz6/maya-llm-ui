@@ -195,6 +195,7 @@ export const QuickSettings: FC<QuickSettingsProps> = ({}) => {
           {selectedPreset && (
             <ModelIcon
               provider={modelDetails?.provider || "custom"}
+              modelId={selectedPreset.model}
               width={32}
               height={32}
             />

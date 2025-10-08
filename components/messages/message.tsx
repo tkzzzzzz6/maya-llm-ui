@@ -232,6 +232,7 @@ export const Message: FC<MessageProps> = ({
                     trigger={
                       <ModelIcon
                         provider={modelDetails?.provider || "custom"}
+                        modelId={message.model}
                         height={ICON_SIZE}
                         width={ICON_SIZE}
                       />

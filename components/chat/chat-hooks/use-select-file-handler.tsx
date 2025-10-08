@@ -51,6 +51,9 @@ export const useSelectFileHandler = () => {
     setShowFilesDisplay(true)
     setUseRetrieval(true)
 
+    // 获取当前模型信息
+    const FULL_MODEL = LLM_LIST.find(llm => llm.modelId === chatSettings.model)
+
     if (file) {
       let simplifiedFileType = file.type.split("/")[1]
 
@@ -58,7 +61,7 @@ export const useSelectFileHandler = () => {
 
       if (file.type.includes("image")) {
         reader.readAsDataURL(file)
-      } else if (ACCEPTED_FILE_TYPES.split(",").includes(file.type)) {
+      } else if (ACCEPTED_FILE_TYPES.includes(file.type)) {
         if (simplifiedFileType.includes("vnd.adobe.pdf")) {
           simplifiedFileType = "pdf"
         } else if (
@@ -133,7 +136,13 @@ export const useSelectFileHandler = () => {
             : reader.readAsText(file)
         }
       } else {
-        throw new Error("Unsupported file type")
+        const supportedTypes =
+          "CSV, DOCX, JSON, Markdown, PDF, TXT" +
+          (FULL_MODEL?.imageInput ? ", 图片" : "")
+        toast.error(
+          `不支持的文件类型: ${file.type || "未知"}。支持的类型：${supportedTypes}`
+        )
+        return
       }
 
       reader.onloadend = async function () {

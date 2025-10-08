@@ -33,6 +33,7 @@ export const QuickSettingOption: FC<QuickSettingOptionProps> = ({
         {contentType === "presets" ? (
           <ModelIcon
             provider={modelDetails?.provider || "custom"}
+            modelId={item.model}
             width={32}
             height={32}
           />

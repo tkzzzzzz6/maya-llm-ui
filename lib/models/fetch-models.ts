@@ -172,9 +172,16 @@ export const fetchGoogleModels = async (apiKey: string) => {
       })
       .map((model: any) => {
         const modelId = model.name.replace("models/", "")
+
+        // 将 gemini-2.5-flash 重命名为 V-mallard
+        let displayName = model.displayName || modelId
+        if (modelId === "gemini-2.5-flash") {
+          displayName = "V-mallard"
+        }
+
         return {
           modelId: modelId as LLMID,
-          modelName: model.displayName || modelId,
+          modelName: displayName,
           provider: "google",
           hostedId: modelId,
           platformLink: "https://ai.google.dev/",
