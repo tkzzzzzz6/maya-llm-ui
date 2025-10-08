@@ -1,0 +1,5 @@
+Looking in indexes: https://pypi.tuna.tsinghua.edu.cn/simple
+Collecting pyaudio
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/27/bc/719d140ee63cf4b0725016531d36743a797ffdbab85e8536922902c9349a/PyAudio-0.2.14-cp310-cp310-win_amd64.whl (164 kB)
+Installing collected packages: pyaudio
+Successfully installed pyaudio-0.2.14

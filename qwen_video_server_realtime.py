@@ -7,6 +7,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask_sock import Sock
 import os
+import json
 import base64
 import logging
 import threading
@@ -155,7 +156,6 @@ class RealtimeVideoSession:
     def _send_to_client(self, data):
         """发送数据到客户端"""
         try:
-            import json
             self.websocket.send(json.dumps(data))
         except Exception as e:
             logger.error(f"发送到客户端失败: {e}")
@@ -298,7 +298,6 @@ def websocket_video(ws):
                 break
 
             try:
-                import json
                 data = json.loads(message)
                 msg_type = data.get('type')
 

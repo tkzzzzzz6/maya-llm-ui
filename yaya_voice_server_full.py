@@ -18,9 +18,16 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
-CORS(app)  # 允许跨域请求
+# 配置 CORS，允许所有来源访问
+CORS(app, resources={
+    r"/*": {
+        "origins": "*",
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type"]
+    }
+})
 
-OUTPUT_DIR = "./YAYA_output"
+OUTPUT_DIR = "./yaya_output"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # 全局变量
@@ -31,9 +38,15 @@ def initialize_models():
     global sense_voice_model
     try:
         logger.info("正在加载 SenseVoice 模型...")
+        # 自动检测可用设备
+        import torch
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        logger.info(f"使用设备: {device}")
+        
         sense_voice_model = AutoModel(
             model="iic/SenseVoiceSmall",
-            device="cuda",  # 使用 CPU，如果有 GPU 改为 "cuda"
+            trust_remote_code=True,  # 关键参数：允许执行远程代码
+            device=device,  # 自动选择 CUDA 或 CPU
             disable_pbar=False,
             disable_log=False
         )
@@ -43,6 +56,20 @@ def initialize_models():
         logger.error(f"模型加载失败: {e}")
         logger.warning("将使用在线 Google STT 作为备用方案")
         return False
+
+@app.route('/', methods=['GET'])
+def index():
+    """根路径"""
+    return jsonify({
+        "service": "YAYA Voice Service",
+        "version": "1.0",
+        "endpoints": {
+            "health": "/health",
+            "stt": "/api/speech-to-text",
+            "tts": "/api/text-to-speech",
+            "voices": "/api/voices"
+        }
+    })
 
 @app.route('/health', methods=['GET'])
 def health_check():

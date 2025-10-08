@@ -233,7 +233,7 @@ export function useVoiceHandler(
       if (provider === "google") {
         endpoint = "/api/voice/google/speech-to-text"
       } else if (provider === "YAYA") {
-        endpoint = "/api/voice/YAYA/speech-to-text"
+        endpoint = "/api/voice/yaya/speech-to-text"
       } else {
         endpoint = "/api/voice/speech-to-text"
       }
@@ -289,7 +289,7 @@ export function useVoiceHandler(
             volumeGainDb: googleOptions?.volumeGainDb || 0.0
           }
         } else if (provider === "YAYA") {
-          endpoint = "/api/voice/YAYA/text-to-speech"
+          endpoint = "/api/voice/yaya/text-to-speech"
           body = {
             text,
             voice: "zh-CN-XiaoxiaoNeural", // YAYA 默认使用晓晓女声

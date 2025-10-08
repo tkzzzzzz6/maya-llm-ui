@@ -6,6 +6,7 @@ export async function POST(req: NextRequest) {
   try {
     // 获取 YAYA 服务地址
     const yayaUrl = process.env.YAYA_SERVICE_URL || "http://localhost:5001"
+    console.log("[YAYA STT] 服务地址:", yayaUrl)
 
     // 从请求中获取音频文件
     const formData = await req.formData()
@@ -27,10 +28,15 @@ export async function POST(req: NextRequest) {
     const yayaFormData = new FormData()
     yayaFormData.append("audio", audioFile)
 
+    console.log("[YAYA STT] 发送请求到:", `${yayaUrl}/api/speech-to-text`)
+    console.log("[YAYA STT] 音频文件大小:", audioFile.size, "bytes")
+
     const response = await fetch(`${yayaUrl}/api/speech-to-text`, {
       method: "POST",
       body: yayaFormData
     })
+
+    console.log("[YAYA STT] 响应状态:", response.status)
 
     if (!response.ok) {
       const error = await response.json()
