@@ -1,0 +1,13 @@
+# 阿里云DashScope SDK - 实时多模态API
+dashscope>=1.23.9
+
+# 音频处理
+pyaudio>=0.2.11
+
+# 视频处理和计算机视觉
+opencv-python>=4.8.0
+
+# 数值计算（opencv-python依赖，但明确列出）
+numpy>=1.21.0
+
+
