@@ -11,6 +11,13 @@ import {
   IconCamera
 } from "@tabler/icons-react"
 import { Button } from "@/components/ui/button"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select"
 import { VideoHandlerReturn } from "./chat-hooks/use-video-handler"
 
 interface VideoInputProps {
@@ -29,6 +36,9 @@ export const VideoInput: FC<VideoInputProps> = ({
     isPaused,
     recordingDuration,
     previewStream,
+    videoDevices,
+    selectedDeviceId,
+    setSelectedDeviceId,
     startRecording,
     stopRecording,
     pauseRecording,
@@ -65,6 +75,28 @@ export const VideoInput: FC<VideoInputProps> = ({
 
   return (
     <div className={cn("flex w-full flex-col space-y-4", className)}>
+      {/* 摄像头选择器 */}
+      {!isRecording && videoDevices.length > 0 && (
+        <div className="flex items-center space-x-2">
+          <label className="text-sm font-medium">选择摄像头:</label>
+          <Select
+            value={selectedDeviceId || undefined}
+            onValueChange={setSelectedDeviceId}
+          >
+            <SelectTrigger className="w-[300px]">
+              <SelectValue placeholder="选择摄像头设备" />
+            </SelectTrigger>
+            <SelectContent>
+              {videoDevices.map(device => (
+                <SelectItem key={device.deviceId} value={device.deviceId}>
+                  {device.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      )}
+
       {/* 视频预览区域 */}
       <div className="bg-muted relative aspect-video w-full overflow-hidden rounded-lg">
         {previewStream ? (

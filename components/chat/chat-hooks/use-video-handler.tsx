@@ -1,12 +1,22 @@
 import { useState, useRef, useCallback } from "react"
 import { toast } from "sonner"
 
+export interface VideoDevice {
+  deviceId: string
+  label: string
+}
+
 export interface VideoHandlerReturn {
   // 录制状态
   isRecording: boolean
   isPaused: boolean
   recordingDuration: number
   previewStream: MediaStream | null
+
+  // 摄像头设备
+  videoDevices: VideoDevice[]
+  selectedDeviceId: string | null
+  setSelectedDeviceId: (deviceId: string) => void
 
   // 录制控制
   startRecording: () => Promise<void>
@@ -33,6 +43,10 @@ export function useVideoHandler(
   const [recordingDuration, setRecordingDuration] = useState(0)
   const [previewStream, setPreviewStream] = useState<MediaStream | null>(null)
 
+  // 摄像头设备状态
+  const [videoDevices, setVideoDevices] = useState<VideoDevice[]>([])
+  const [selectedDeviceId, setSelectedDeviceId] = useState<string | null>(null)
+
   // Refs
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
   const videoChunksRef = useRef<Blob[]>([])
@@ -40,16 +54,65 @@ export function useVideoHandler(
   const durationIntervalRef = useRef<NodeJS.Timeout | null>(null)
   const videoPreviewRef = useRef<HTMLVideoElement | null>(null)
 
+  // 获取可用的摄像头设备
+  const loadVideoDevices = useCallback(async () => {
+    try {
+      // 先请求一次权限，这样才能获取到设备标签
+      const tempStream = await navigator.mediaDevices.getUserMedia({
+        video: true
+      })
+      tempStream.getTracks().forEach(track => track.stop())
+
+      const devices = await navigator.mediaDevices.enumerateDevices()
+      const videoInputs = devices
+        .filter(device => device.kind === "videoinput")
+        .map(device => ({
+          deviceId: device.deviceId,
+          label: device.label || `摄像头 ${device.deviceId.slice(0, 5)}`
+        }))
+
+      setVideoDevices(videoInputs)
+
+      // 如果还没选择设备，默认选择第一个
+      if (!selectedDeviceId && videoInputs.length > 0) {
+        setSelectedDeviceId(videoInputs[0].deviceId)
+      }
+
+      console.log("可用的摄像头设备:", videoInputs)
+    } catch (error) {
+      console.error("Failed to load video devices:", error)
+    }
+  }, [selectedDeviceId])
+
   // 开始录制
   const startRecording = useCallback(async () => {
     try {
+      // 如果设备列表为空，先加载
+      if (videoDevices.length === 0) {
+        await loadVideoDevices()
+      }
+
+      if (videoDevices.length === 0) {
+        toast.error("未检测到可用的摄像头设备")
+        return
+      }
+
+      // 构建视频约束
+      const videoConstraints: MediaTrackConstraints = {
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      }
+
+      // 如果用户选择了特定的摄像头，使用 deviceId
+      if (selectedDeviceId) {
+        videoConstraints.deviceId = { exact: selectedDeviceId }
+      } else {
+        videoConstraints.facingMode = "user" // 前置摄像头
+      }
+
       // 请求摄像头和麦克风权限
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          width: { ideal: 1280 },
-          height: { ideal: 720 },
-          facingMode: "user" // 前置摄像头
-        },
+        video: videoConstraints,
         audio: {
           echoCancellation: true,
           noiseSuppression: true,
@@ -110,16 +173,28 @@ export function useVideoHandler(
       toast.success("开始视频录制")
     } catch (error: any) {
       console.error("Failed to start video recording:", error)
+      console.error("Error details:", {
+        name: error.name,
+        message: error.message,
+        constraint: error.constraint
+      })
+
       if (error.name === "NotAllowedError") {
-        toast.error("摄像头或麦克风权限被拒绝")
+        toast.error("摄像头或麦克风权限被拒绝，请在浏览器设置中允许访问")
       } else if (error.name === "NotFoundError") {
         toast.error("未找到摄像头或麦克风设备")
+      } else if (error.name === "NotReadableError") {
+        toast.error(
+          "摄像头被占用或无法访问，请关闭其他使用摄像头的程序（如 Iriun Webcam、Zoom、Teams 等）"
+        )
+      } else if (error.name === "OverconstrainedError") {
+        toast.error("所选摄像头不支持请求的配置，请尝试选择其他摄像头")
       } else {
-        toast.error("无法访问摄像头，请检查权限设置")
+        toast.error(`无法访问摄像头: ${error.message}`)
       }
       options?.onError?.(error)
     }
-  }, [options])
+  }, [options, videoDevices, loadVideoDevices, selectedDeviceId])
 
   // 停止录制
   const stopRecording = useCallback(async () => {
@@ -246,6 +321,9 @@ export function useVideoHandler(
     isPaused,
     recordingDuration,
     previewStream,
+    videoDevices,
+    selectedDeviceId,
+    setSelectedDeviceId,
     startRecording,
     stopRecording,
     pauseRecording,

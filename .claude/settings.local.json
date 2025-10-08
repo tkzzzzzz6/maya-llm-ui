@@ -12,7 +12,9 @@
       "Bash(npm uninstall:*)",
       "Bash(echo $http_proxy)",
       "Bash(echo $https_proxy)",
-      "Bash(npm view:*)"
+      "Bash(npm view:*)",
+      "Bash(chmod:*)",
+      "Bash(test -f test_video_api.py)"
     ],
     "deny": [],
     "ask": []

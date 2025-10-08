@@ -66,17 +66,53 @@ export const VideoChatUI: FC<VideoChatUIProps> = ({}) => {
   // 视频处理 Hook
   const videoHandler = useVideoHandler({
     onRecordingComplete: async (videoBlob: Blob, imageBlob?: Blob) => {
-      // 视频录制完成后，处理视频文件
-      // TODO: 实现视频文件上传和发送逻辑
-      console.log("视频录制完成", {
-        videoSize: videoBlob.size,
-        imageSize: imageBlob?.size
-      })
+      // 视频录制完成后，发送到 Qwen Video 服务进行分析
+      try {
+        console.log("视频录制完成", {
+          videoSize: videoBlob.size,
+          imageSize: imageBlob?.size
+        })
 
-      // 将来可以在这里：
-      // 1. 上传视频到存储
-      // 2. 创建包含视频的消息
-      // 3. 调用支持视频输入的 AI 模型
+        // 创建 FormData
+        const formData = new FormData()
+        formData.append("video", videoBlob, "recording.webm")
+        formData.append("question", "请分析这个视频中的内容")
+
+        // 发送到视频分析 API
+        console.log("正在发送视频到服务器...")
+        const response = await fetch("/api/video/analyze", {
+          method: "POST",
+          body: formData
+        })
+
+        console.log("服务器响应状态:", response.status)
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}))
+          console.error("服务器错误:", errorData)
+          throw new Error(
+            errorData.error || `视频分析失败 (${response.status})`
+          )
+        }
+
+        const result = await response.json()
+        console.log("视频分析结果:", result)
+
+        // 将分析结果作为消息显示
+        if (result.analysis) {
+          setUserInput(`视频分析: ${result.analysis}`)
+          await handleSendMessage(
+            `[视频内容]: ${result.analysis}`,
+            chatMessages,
+            false
+          )
+        } else {
+          console.warn("未收到分析结果")
+        }
+      } catch (error: any) {
+        console.error("视频分析错误:", error)
+        alert(`视频分析失败: ${error.message}`)
+      }
     },
     onError: error => {
       console.error("Video error:", error)
