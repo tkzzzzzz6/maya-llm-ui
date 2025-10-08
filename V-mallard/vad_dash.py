@@ -103,13 +103,13 @@ def init_video_capture(source=0):
             # 设置缓冲区大小为1，减少延迟
             video_cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
             
-            print(f'✅ 视频捕获已初始化: {source} @ 480p (640x480)')
+            print(f' 视频捕获已初始化: {source} @ 480p (640x480)')
             return True
         else:
-            print(f'❌ 无法打开视频源: {source}')
+            print(f' 无法打开视频源: {source}')
             return False
     except Exception as e:
-        print(f'❌ 视频捕获初始化错误: {e}')
+        print(f' 视频捕获初始化错误: {e}')
         return False
 
 def display_video_frame(frame):
@@ -177,7 +177,7 @@ class MyCallback(OmniRealtimeCallback):
         global pya
         global mic_stream
         global b64_player
-        print('🔌 连接已建立，正在初始化麦克风和摄像头...')
+        print(' 连接已建立，正在初始化麦克风和摄像头...')
         
         # 初始化音频
         pya = pyaudio.PyAudio()
@@ -186,10 +186,10 @@ class MyCallback(OmniRealtimeCallback):
                             rate=16000,
                             input=True)
         b64_player = B64PCMPlayer(pya)
-        print('🎤 麦克风已初始化')
+        print(' 麦克风已初始化')
         
         # 直接初始化视频捕获（默认摄像头，480p）
-        source = input("📹 请输入视频源 (0=默认摄像头，文件路径=视频文件，直接回车=0): ").strip()
+        source = input(" 请输入视频源 (0=默认摄像头，文件路径=视频文件，直接回车=0): ").strip()
         if not source:
             source = 0
         else:
@@ -261,13 +261,13 @@ if __name__  == '__main__':
         sys.exit(0)
     signal.signal(signal.SIGINT, signal_handler)
     print("\n" + "="*60)
-    print("🎤 Qwen-Omni 实时视频对话系统已启动")
+    print(" V-mallard终端-实时视频对话系统已启动")
     print("="*60)
-    print("📹 视频输入已启用 (480p) - Video input enabled")
+    print(" 视频输入已启用 (480p) - Video input enabled")
     print("   - 实时画面将显示在独立窗口中（无状态叠加）")
     print(f"   - 显示帧率: {DISPLAY_FPS}fps | 发送帧率: 2fps")
-    print("🗣️  现在可以开始说话，AI 会实时响应...")
-    print("⏹️  退出方式: Ctrl+C 或在视频窗口按 'q' 键")
+    print("  现在可以开始说话，AI 会实时响应...")
+    print("  退出方式: Ctrl+C 或在视频窗口按 'q' 键")
     print("="*60 + "\n")
     
     last_photo_time = time.time()*1000
