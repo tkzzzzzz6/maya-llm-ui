@@ -6,8 +6,8 @@ export const getChatFilesByChatId = async (chatId: string) => {
     .from("chats")
     .select(
       `
-      id, 
-      name, 
+      id,
+      name,
       files (*)
     `
     )
@@ -15,11 +15,15 @@ export const getChatFilesByChatId = async (chatId: string) => {
     .maybeSingle()
 
   if (error) {
-    throw new Error(error?.message || "Failed to fetch chat files")
+    console.error("Failed to fetch chat files:", error)
+    // 返回空数据而不是抛出错误，避免阻塞页面加载
+    return { id: chatId, name: "", files: [] }
   }
 
   if (!chatFiles) {
-    throw new Error(`Chat with id ${chatId} not found`)
+    console.warn(`Chat with id ${chatId} not found, returning empty data`)
+    // 返回空数据而不是抛出错误
+    return { id: chatId, name: "", files: [] }
   }
 
   return chatFiles

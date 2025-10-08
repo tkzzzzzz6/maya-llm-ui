@@ -185,19 +185,24 @@ export const VideoChatUI: FC<VideoChatUIProps> = ({}) => {
     const uniqueFileItems = messageFileItems.flatMap(item => item.file_items)
     setChatFileItems(uniqueFileItems)
 
-    const chatFiles = await getChatFilesByChatId(params.chatid as string)
+    try {
+      const chatFiles = await getChatFilesByChatId(params.chatid as string)
 
-    setChatFiles(
-      chatFiles.files.map(file => ({
-        id: file.id,
-        name: file.name,
-        type: file.type,
-        file: null
-      }))
-    )
+      setChatFiles(
+        chatFiles.files?.map(file => ({
+          id: file.id,
+          name: file.name,
+          type: file.type,
+          file: null
+        })) || []
+      )
 
-    setUseRetrieval(true)
-    setShowFilesDisplay(true)
+      setUseRetrieval(true)
+      setShowFilesDisplay(true)
+    } catch (error) {
+      console.error("Error loading chat files:", error)
+      setChatFiles([])
+    }
 
     const fetchedChatMessages = fetchedMessages.map(message => {
       return {
