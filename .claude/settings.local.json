@@ -14,7 +14,12 @@
       "Bash(echo $https_proxy)",
       "Bash(npm view:*)",
       "Bash(chmod:*)",
-      "Bash(test -f test_video_api.py)"
+      "Bash(test -f test_video_api.py)",
+      "Bash(test:*)",
+      "Bash(pip show:*)",
+      "Bash(pip install:*)",
+      "Bash(export DASHSCOPE_API_KEY=sk-c5c3e296dfc74fb9bef2fa4481b7cd78)",
+      "Bash(timeout:*)"
     ],
     "deny": [],
     "ask": []

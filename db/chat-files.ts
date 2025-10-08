@@ -12,10 +12,14 @@ export const getChatFilesByChatId = async (chatId: string) => {
     `
     )
     .eq("id", chatId)
-    .single()
+    .maybeSingle()
+
+  if (error) {
+    throw new Error(error.message)
+  }
 
   if (!chatFiles) {
-    throw new Error(error.message)
+    throw new Error(`Chat with id ${chatId} not found`)
   }
 
   return chatFiles
@@ -27,8 +31,12 @@ export const createChatFile = async (chatFile: TablesInsert<"chat_files">) => {
     .insert(chatFile)
     .select("*")
 
-  if (!createdChatFile) {
+  if (error) {
     throw new Error(error.message)
+  }
+
+  if (!createdChatFile) {
+    throw new Error("Failed to create chat file")
   }
 
   return createdChatFile
@@ -42,8 +50,12 @@ export const createChatFiles = async (
     .insert(chatFiles)
     .select("*")
 
-  if (!createdChatFiles) {
+  if (error) {
     throw new Error(error.message)
+  }
+
+  if (!createdChatFiles) {
+    throw new Error("Failed to create chat files")
   }
 
   return createdChatFiles
