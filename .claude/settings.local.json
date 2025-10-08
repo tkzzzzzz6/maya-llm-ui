@@ -19,7 +19,8 @@
       "Bash(pip show:*)",
       "Bash(pip install:*)",
       "Bash(export DASHSCOPE_API_KEY=sk-c5c3e296dfc74fb9bef2fa4481b7cd78)",
-      "Bash(timeout:*)"
+      "Bash(timeout:*)",
+      "Bash(npx supabase db inspect:*)"
     ],
     "deny": [],
     "ask": []
