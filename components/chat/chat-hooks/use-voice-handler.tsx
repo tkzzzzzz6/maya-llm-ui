@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback } from "react"
 import { toast } from "sonner"
 
-export type VoiceProvider = "openai" | "google" | "yaya"
+export type VoiceProvider = "openai" | "google" | "YAYA"
 
 interface VoiceHandlerOptions {
   onTranscriptionComplete?: (text: string) => void
@@ -232,8 +232,8 @@ export function useVoiceHandler(
       let endpoint: string
       if (provider === "google") {
         endpoint = "/api/voice/google/speech-to-text"
-      } else if (provider === "yaya") {
-        endpoint = "/api/voice/yaya/speech-to-text"
+      } else if (provider === "YAYA") {
+        endpoint = "/api/voice/YAYA/speech-to-text"
       } else {
         endpoint = "/api/voice/speech-to-text"
       }
@@ -288,8 +288,8 @@ export function useVoiceHandler(
             pitch: googleOptions?.pitch || 0.0,
             volumeGainDb: googleOptions?.volumeGainDb || 0.0
           }
-        } else if (provider === "yaya") {
-          endpoint = "/api/voice/yaya/text-to-speech"
+        } else if (provider === "YAYA") {
+          endpoint = "/api/voice/YAYA/text-to-speech"
           body = {
             text,
             voice: "zh-CN-XiaoxiaoNeural", // YAYA 默认使用晓晓女声

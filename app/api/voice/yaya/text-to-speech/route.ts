@@ -5,7 +5,7 @@ export const runtime = "nodejs"
 export async function POST(req: NextRequest) {
   try {
     // 获取 YAYA 服务地址
-    const yayaUrl = process.env.YAYA_SERVICE_URL || "http://localhost:5001"
+    const YAYAUrl = process.env.YAYA_SERVICE_URL || "http://localhost:5001"
 
     // 从请求中获取文本和可选配置
     const body = await req.json()
@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 调用 YAYA TTS API
-    const response = await fetch(`${yayaUrl}/api/text-to-speech`, {
+    const response = await fetch(`${YAYAUrl}/api/text-to-speech`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

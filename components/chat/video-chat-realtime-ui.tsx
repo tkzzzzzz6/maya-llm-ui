@@ -99,14 +99,14 @@ export const VideoChatRealtimeUI: FC<VideoChatRealtimeUIProps> = ({
       {/* 控制按钮 */}
       <div className="mt-4 flex items-center justify-center space-x-4">
         {!isConnected ? (
-          <Button onClick={connect} size="lg" className="w-40">
+          <Button onClick={() => connect()} size="lg" className="w-40">
             <IconPlugConnected className="mr-2" size={20} />
             连接服务
           </Button>
         ) : (
           <>
             <Button
-              onClick={disconnect}
+              onClick={() => disconnect()}
               variant="outline"
               size="lg"
               className="w-40"
@@ -116,13 +116,17 @@ export const VideoChatRealtimeUI: FC<VideoChatRealtimeUIProps> = ({
             </Button>
 
             {!isStreaming ? (
-              <Button onClick={startStreaming} size="lg" className="w-40">
+              <Button
+                onClick={() => startStreaming()}
+                size="lg"
+                className="w-40"
+              >
                 <IconVideo className="mr-2" size={20} />
                 开始视频流
               </Button>
             ) : (
               <Button
-                onClick={stopStreaming}
+                onClick={() => stopStreaming()}
                 variant="destructive"
                 size="lg"
                 className="w-40"

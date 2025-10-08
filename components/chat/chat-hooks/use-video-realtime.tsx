@@ -49,15 +49,21 @@ export function useVideoRealtime(
       // 获取 WebSocket URL - 支持多种方式
       let wsUrl = process.env.NEXT_PUBLIC_QWEN_VIDEO_WS_URL
 
+      console.log("🔍 环境变量:", process.env.NEXT_PUBLIC_QWEN_VIDEO_WS_URL)
+      console.log("🌐 当前主机:", window.location.hostname)
+
       if (!wsUrl) {
         // 如果没有配置环境变量，使用当前页面的主机名
         const protocol = window.location.protocol === "https:" ? "wss:" : "ws:"
         const hostname = window.location.hostname
         // 默认使用 5003 端口
         wsUrl = `${protocol}//${hostname}:5003/ws/video`
+        console.log("⚠️ 未找到环境变量，使用自动生成地址")
+      } else {
+        console.log("✅ 使用环境变量配置的地址")
       }
 
-      console.log("连接到实时视频服务:", wsUrl)
+      console.log("📡 连接到实时视频服务:", wsUrl)
 
       const ws = new WebSocket(wsUrl)
 
@@ -117,7 +123,8 @@ export function useVideoRealtime(
       ws.onerror = error => {
         console.error("WebSocket 错误:", error)
         toast.error("实时视频服务连接错误")
-        options?.onError?.(error as Error)
+        const errorObj = new Error("WebSocket connection error")
+        options?.onError?.(errorObj)
       }
 
       ws.onclose = () => {
@@ -188,11 +195,12 @@ export function useVideoRealtime(
 
       // 定时发送视频帧（2fps）
       const videoTrack = stream.getVideoTracks()[0]
-      // @ts-ignore
+      // @ts-ignore - ImageCapture API 可能不在所有类型定义中
       const imageCapture = new ImageCapture(videoTrack)
 
       videoIntervalRef.current = setInterval(async () => {
         try {
+          // @ts-ignore - grabFrame 方法类型定义
           const bitmap = await imageCapture.grabFrame()
 
           // 转换为 JPEG
@@ -304,10 +312,14 @@ export function useVideoRealtime(
     isStreaming,
     currentResponse,
     currentTranscript,
+    availableCameras: [], // TODO: 实现摄像头管理
+    selectedCameraId: null,
     connect,
     disconnect,
     startStreaming,
     stopStreaming,
+    selectCamera: (deviceId: string) => {}, // TODO: 实现摄像头选择
+    refreshCameras: async () => {}, // TODO: 实现刷新摄像头
     onResponse: options?.onResponse,
     onAudio: options?.onAudio
   }

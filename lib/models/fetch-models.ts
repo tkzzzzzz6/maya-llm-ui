@@ -96,9 +96,9 @@ export const fetchOllamaModels = async () => {
       // 自定义模型显示名称
       let displayName = model.name
 
-      // 将 deepseek-v3.1:671b-cloud 重命名为 YaYa
+      // 将 deepseek-v3.1:671b-cloud 重命名为 V-mallard
       if (model.name === "deepseek-v3.1:671b-cloud") {
-        displayName = "YaYa"
+        displayName = "V-mallard"
       }
 
       return {

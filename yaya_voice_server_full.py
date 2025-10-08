@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 CORS(app)  # 允许跨域请求
 
-OUTPUT_DIR = "./yaya_output"
+OUTPUT_DIR = "./YAYA_output"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # 全局变量
